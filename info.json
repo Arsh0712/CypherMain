@@ -1,1 +1,22 @@
 
+{
+    "OWNER_IDS": [
+        1307302913240203274
+    ],
+    "TOKEN": "",
+    "BotName": "Mikasa",
+    "serverLink": "https://discord.gg/5AnYQzhBm3",
+    "wh_cl": "https://discord.com/api/webhooks/1313147583253844080/5s0GaZ-SNibPZdmJCFS5B1e0JlD4aZXOz1lnIhsfxkz9PcI92ZAM8l-DCAZ27jZuhVNs",
+    "wh_bl": "https://discord.com/api/webhooks/1310545857061322793/VO_zZb0DLX7y8TJsuhqa6gCyuqdTbno5YMeiZPvIt6Jkz5ZDm-jX6Vodbf475ft-FpTk",
+    "statusText": ".help | .gg/cypherbot",
+    "EXTENSIONS": [
+        "cogs.events"
+    ],
+    "np": [
+        919175804829708308,
+        919147106684510249,
+        1263792569981341819,
+        1264585642780790814,
+        1006969868094017557
+    ]
+}
