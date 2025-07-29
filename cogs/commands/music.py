@@ -903,5 +903,7 @@ class Music(commands.Cog):
 
 async def setup(bot: commands.Bot):
     cog = Music(bot)
-    bot.lavalink.add_event_hooks(cog)
     await bot.add_cog(cog)
+    
+    if bot.lavalink:
+        bot.lavalink.add_event_hooks(cog)
