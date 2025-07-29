@@ -112,7 +112,6 @@ class Noprefix(commands.Cog):
         self.staff = set()
         self.db_path = 'database/np.db'
         
-        self.client.loop.create_task(self.load_staff())
         self.db = None  # Single database connection
         self.client.loop.create_task(self.initialize_database())
         self.expiry_check.start()
