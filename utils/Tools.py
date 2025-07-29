@@ -8,6 +8,18 @@ import asyncio
 db_connection = None
 ignore_db = None
 block_db = None
+async def setup_db():
+  async with aiosqlite.connect('database/prefix.db') as db:
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS prefixes (
+        guild_id INTEGER PRIMARY KEY,
+        prefix TEXT NOT NULL
+      )
+    ''')
+    await db.commit()
+
+
+asyncio.run(setup_db())
 
 async def initialize_databases():
     """Initialize all database connections."""
