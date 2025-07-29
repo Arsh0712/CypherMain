@@ -26,7 +26,7 @@ IN THE SOFTWARE.
 
 ## 🌐 Social & Support
 
-- 💬 [Join Support Server](https://discord.gg/sxN6BhwYtE)
+- 💬 [Join Support Server](https://discord.gg/RSPAu29Djq)
 - 🛠 [Report Issues](https://github.comdarknight156/CypherMain/issues)
 - ⭐ [Star this repo](https://github.com/darknight156/CypherMain) if you like Cypher!
 
