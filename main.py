@@ -6,7 +6,6 @@ from discord.ext import commands
 import discord
 import jishaku, cogs
 from discord import app_commands
-from antiratelimit import antiratelimit
 from lavalink import Client
 import lavalink
 from utils.database import init_db
@@ -79,17 +78,7 @@ async def fetch_user_data(user_id):
     await asyncio.sleep(1)
     return f"Fetched data for user {user_id}"
 
-@client.command()
-async def get_data(ctx, user_id: int):
-    try:
-        result = await rate_limiter.add(
-            task_id=str(user_id),
-            run=lambda: fetch_user_data(user_id),
-            prio=1
-        )
-        await ctx.send(result)
-    except Exception as e:
-        await ctx.send(f"Cannot fetch data for user {user_id}: {str(e)}")
+
         
     
 async def load():
