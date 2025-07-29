@@ -62,11 +62,13 @@ async def find_guild(ctx, channel_id: int):
          
         
 @client.event
-async def on_ready():     
+async def on_ready():
+    await client.wait_until_ready()
     print("Loaded & Online!")
     print(f"Logged in as: {client.user}")
     print(f"Connected to: {len(client.guilds)} guilds")
     print(f"Connected to: {len(client.users)} users")
+    await load()
 
     
         
@@ -84,7 +86,6 @@ async def main():
     init_db()
     async with client:
         os.system("clear")
-        await load()
         await client.load_extension("jishaku")
         await client.start(token)
 
