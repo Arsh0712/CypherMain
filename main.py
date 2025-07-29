@@ -60,6 +60,13 @@ async def find_guild(ctx, channel_id: int):
     else:
         await ctx.send("Channel not found or not in cache!")
         
+@client.event
+async def on_ready():   
+    print("Loaded & Online!")
+    print(f"Logged in as: {client.user}")
+    print(f"Connected to: {len(client.guilds)} guilds")
+    print(f"Connected to: {len(client.users)} users")
+        
 async def load():
     for root, _, files in os.walk("cogs"):  # No need for "./cogs"
         for filename in files:
@@ -68,13 +75,6 @@ async def load():
                 module_path = os.path.join(root, filename[:-3]).replace(os.sep, ".")  # Use os.sep for cross-platform
                 await client.load_extension(module_path)    
         
-@client.event
-async def on_ready():   
-    await load()
-    print("Loaded & Online!")
-    print(f"Logged in as: {client.user}")
-    print(f"Connected to: {len(client.guilds)} guilds")
-    print(f"Connected to: {len(client.users)} users")
     
         
 
@@ -84,6 +84,7 @@ async def main():
     async with client:
         os.system("clear")
         await client.load_extension("jishaku")
+        await load()
         await client.start(token)
 
 
