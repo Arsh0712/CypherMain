@@ -9,7 +9,6 @@ from discord import app_commands
 from lavalink import Client
 import lavalink
 from utils.database import init_db
-
 import time
 import aiohttp
 import aiosqlite
@@ -60,7 +59,7 @@ async def find_guild(ctx, channel_id: int):
         await ctx.send(f"Channel belongs to guild: {guild.name} (ID: {guild.id})")
     else:
         await ctx.send("Channel not found or not in cache!")
-          
+         
         
 @client.event
 async def on_ready():     
@@ -70,11 +69,6 @@ async def on_ready():
     print(f"Connected to: {len(client.users)} users")
 
     
-async def fetch_user_data(user_id):
-    await asyncio.sleep(1)
-    return f"Fetched data for user {user_id}"
-
-
         
     
 async def load():
@@ -86,6 +80,8 @@ async def load():
                 await client.load_extension(module_path)
 
 async def main():
+    os.makedirs("database", exist_ok=True)
+    init_db()
     async with client:
         os.system("clear")
         await load()
