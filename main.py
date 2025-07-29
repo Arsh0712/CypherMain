@@ -60,11 +60,7 @@ async def find_guild(ctx, channel_id: int):
         await ctx.send(f"Channel belongs to guild: {guild.name} (ID: {guild.id})")
     else:
         await ctx.send("Channel not found or not in cache!")
-        
-async def setup_db():
-    async with aiosqlite.connect("database/prefix.db") as db:
-        await db.execute('''CREATE TABLE IF NOT EXISTS prefixes (guild_id INTEGER PRIMARY KEY, prefix TEXT NOT NULL)''')
-        await db.commit()     
+          
         
 @client.event
 async def on_ready():     
