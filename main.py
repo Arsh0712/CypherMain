@@ -59,27 +59,24 @@ async def find_guild(ctx, channel_id: int):
         await ctx.send(f"Channel belongs to guild: {guild.name} (ID: {guild.id})")
     else:
         await ctx.send("Channel not found or not in cache!")
-         
         
-@client.event
-async def on_ready():
-    await client.wait_until_ready()
-    print("Loaded & Online!")
-    print(f"Logged in as: {client.user}")
-    print(f"Connected to: {len(client.guilds)} guilds")
-    print(f"Connected to: {len(client.users)} users")
-    await load()
-
-    
-        
-    
 async def load():
     for root, _, files in os.walk("cogs"):  # No need for "./cogs"
         for filename in files:
             if filename.endswith(".py"):
                 # Convert file path to module path
                 module_path = os.path.join(root, filename[:-3]).replace(os.sep, ".")  # Use os.sep for cross-platform
-                await client.load_extension(module_path)
+                await client.load_extension(module_path)    
+        
+@client.event
+async def on_ready():   
+    await load()
+    print("Loaded & Online!")
+    print(f"Logged in as: {client.user}")
+    print(f"Connected to: {len(client.guilds)} guilds")
+    print(f"Connected to: {len(client.users)} users")
+    
+        
 
 async def main():
     os.makedirs("database", exist_ok=True)
