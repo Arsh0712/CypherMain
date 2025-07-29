@@ -152,10 +152,6 @@ class Noprefix(commands.Cog):
             await self.db.close()
 
 
-    async def load_staff(self):
-        await self.client.wait_until_ready()
-        async with self.db.execute('SELECT id FROM staff') as cursor:
-            self.staff = {row[0] for row in await cursor.fetchall()}
 
     @tasks.loop(minutes=10)
     async def expiry_check(self):
