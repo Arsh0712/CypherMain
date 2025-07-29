@@ -461,6 +461,7 @@ class Music(commands.Cog):
                 
             embed = discord.Embed()
             embed.set_author(name="Now Playing", icon_url=self.bot.user.avatar.url)
+            embed.set_thumbnail(url=track.artwork_url)
             embed.color = discord.Color.dark_embed()
             embed.description = (
                 f'- [{track.title} - {track.author}](https://discord.gg/m4Hbeftf8B)\n'
