@@ -267,8 +267,8 @@ class MusicControlView(discord.ui.View):
         self.player = player  
         self.color = discord.Color.red()
         
-    @discord.ui.button(label="Like", style=discord.ButtonStyle.danger)
-    async def add_to_favourites(self, interaction: discord.Interaction, button: discord.ui.Button):
+    @discord.ui.button(label="Loop", style=discord.ButtonStyle.danger)
+    async def add_to_loop(self, interaction: discord.Interaction, button: discord.ui.Button):
         if not interaction.user.voice:
             await interaction.response.send_message("You are not in a voice channel.", ephemeral=True)
             return
@@ -276,22 +276,14 @@ class MusicControlView(discord.ui.View):
             await interaction.response.send_message("<:stolen_emoji:1255171928986226730> You are not in the same voice channel.", ephemeral=True)
             return
         
-        if self.player.is_playing:
-            current_track = self.player.current
-            if current_track:
-                track_title = current_track.title
-                user_id = interaction.user.id
-                conn = sqlite3.connect('playlists.db')
-                c = conn.cursor()
-                c.execute("INSERT INTO playlists (user_id, playlist_name, track) VALUES (?, ?, ?)", 
-                         (user_id, 'Favourites', track_title))
-                conn.commit()
-                conn.close()
-                await interaction.response.send_message(f'Added "{track_title}" to your "Favourites" playlist.', ephemeral=True)
-            else:
-                await interaction.response.send_message("No track is currently playing.", ephemeral=True)
+        if self.player.loop == lavalink.DefaultPlayer.LOOP_SINGLE:
+            self.player.loop = lavalink.DefaultPlayer.LOOP_NONE
+            embed = discord.Embed(description=" Loop has been **disabled**.", color=discord.Color.red())
         else:
-            await interaction.response.send_message("No music is playing.", ephemeral=True)
+            self.player.loop = lavalink.DefaultPlayer.LOOP_SINGLE
+            embed = discord.Embed(description=" Loop has been **enabled for current track**.", color=discord.Color.green())
+
+        await interaction.response.send_message(embed=embed, ephemeral=True)
             
     @discord.ui.button(label="Pause", style=discord.ButtonStyle.secondary)
     async def pause_resume(self, interaction: discord.Interaction, button: discord.ui.Button):
