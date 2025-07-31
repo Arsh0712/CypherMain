@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 from utils.tool import getAntiRoleLogs, getConfig, getanti, getantichannel
 from datetime import datetime
 
@@ -26,14 +26,8 @@ class AntiRoleCreate(commands.Cog):
                     roles_to_remove = [role for role in member.roles if role != guild.default_role and role.position < guild.me.top_role.position]
                     if roles_to_remove:
                         await member.remove_roles(*roles_to_remove, reason="Unauthorized role creation (AntiNuke)")
-                    else:
-                        pass
-            else:
-                pass
         except Exception as e:
-            pass
-
-
+            print(f"Error handling punishment for user {user_id}: {e}")
 
     @commands.Cog.listener()
     async def on_guild_role_create(self, role: discord.Role):
@@ -47,23 +41,36 @@ class AntiRoleCreate(commands.Cog):
             if ch != "on":
                 return
 
-            data = getConfig(role.guild.id)
+            data = getConfig(guild.id)
             punishment = data["punishment"]
             wled = data["whitelisted"]
             own = data["owners"]
             reason = "Cypher • Security | AntiRoleCreate"
 
-            async for entry in guild.audit_logs(limit=1, action=discord.AuditLogAction.role_create):
-                user_id = entry.user.id
-                if entry.user.id == self.client.user.id or entry.user.id == guild.owner_id or str(entry.user.id) in wled or str(entry.user.id) in own:
+            async for entry in guild.audit_logs(limit=5, action=discord.AuditLogAction.role_create):
+                if entry.target.id != role.id:
+                    continue
+                time_diff = (discord.utils.utcnow() - entry.created_at).total_seconds()
+                if time_diff > 10:
+                    continue
+                if (
+                    entry.user.id == self.client.user.id or
+                    entry.user.id == guild.owner_id or
+                    str(entry.user.id) in wled or
+                    str(entry.user.id) in own
+                ):
+                    return
+                member = guild.get_member(entry.user.id)
+                if member is None:
                     return
 
-                await self.handle_punishment(user_id, guild, punishment, reason)
+                await self.handle_punishment(entry.user.id, guild, punishment, reason)
                 await self.delete_role(role)
                 break
 
         except Exception as e:
-            pass
+            print(f"Error in on_guild_role_create: {e}")
+
 
 async def setup(client: commands.Bot):
     await client.add_cog(AntiRoleCreate(client))
